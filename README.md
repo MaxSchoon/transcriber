@@ -36,6 +36,19 @@ A minimal command-line tool for transcribing MP3 files to text using OpenAI's Wh
    pip install -e .
    ```
 
+## Transcription Modes
+
+This tool now supports two transcription modes:
+
+- **Local (default):** Uses the open‑source Whisper model (provided via the `openai-whisper` package) for cost‑free transcription.
+- **API:** Uses OpenAI's Whisper API. In this mode, ensure you have a valid API key in your `.env` file.
+
+When running the tool you can choose the mode using the `--mode` flag. For example:
+```bash
+python3 -m src.main /path/to/your/audio.mp3 --mode local
+python3 -m src.main /path/to/your/audio.mp3 --mode api
+```
+
 ## Usage
 
 Basic usage:

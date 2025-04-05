@@ -5,7 +5,7 @@ import os
 import sys
 import datetime
 from pathlib import Path
-from .transcriber import transcribe_audio
+from .transcriber import transcribe_audio, transcribe_audio_local
 
 def main():
     """
@@ -15,7 +15,8 @@ def main():
     parser.add_argument("input_file", help="Path to the audio file to transcribe")
     parser.add_argument("--output-dir", default="output", help="Output directory for transcription files")
     parser.add_argument("--name", default="transcript", help="Name prefix for the transcription file")
-    parser.add_argument("--model", default="whisper-1", help="Whisper model to use")
+    parser.add_argument("--model", default="whisper-1", help="Model to use (for local mode, try 'tiny', 'base', etc.)")
+    parser.add_argument("--mode", choices=["local", "api"], default="local", help="Transcription mode: local uses the open-source Whisper model (default), api uses OpenAI's API")
     
     args = parser.parse_args()
     
@@ -31,7 +32,10 @@ def main():
         output_path = os.path.join(args.output_dir, output_filename)
         
         print(f"Transcribing audio file: {args.input_file}")
-        transcription = transcribe_audio(args.input_file, model=args.model)
+        if args.mode == "local":
+            transcription = transcribe_audio_local(args.input_file, model=args.model)
+        else:
+            transcription = transcribe_audio(args.input_file, model=args.model)
         
         # Save transcription to file
         with open(output_path, "w") as f:

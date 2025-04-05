@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Installing Python dependencies..."
+echo "Installing Python dependencies (including openai-whisper for local transcription)..."
 pip install -r requirements.txt
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -21,5 +21,5 @@ else
     echo "Please install FFmpeg manually: https://www.ffmpeg.org/download.html"
 fi
 
-echo "Setup complete! Make sure to create a .env file with your OpenAI API key."
+echo "Setup complete! Make sure to create a .env file with your OpenAI API key (if using API mode)."
 echo "You can copy the example file: cp .env.example .env"

@@ -79,3 +79,30 @@ def transcribe_audio(file_path, model="whisper-1"):
         return transcription_combined.strip()
     except Exception as e:
         raise Exception(f"Error during transcription: {e}")
+
+def transcribe_audio_local(file_path, model="tiny"):
+    """
+    Transcribe an audio file using a locally installed Whisper model.
+    
+    Args:
+        file_path: Path to the audio file
+        model: Whisper model to use (e.g., tiny, base, small, medium, large)
+        
+    Returns:
+        The transcription text
+    """
+    try:
+        import whisper
+    except ImportError as e:
+        raise ImportError("Local transcription mode requires the 'whisper' library. Please install it with: pip install openai-whisper") from e
+    
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Audio file not found: {file_path}")
+    
+    try:
+        # Load the local Whisper model (e.g., tiny, base, small, medium, large)
+        local_model = whisper.load_model(model)
+        result = local_model.transcribe(file_path)
+        return result.get("text", "")
+    except Exception as e:
+        raise Exception(f"Error during local transcription: {e}")
